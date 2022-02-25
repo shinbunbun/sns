@@ -1,0 +1,251 @@
+openapi: 3.1.0
+info:
+  title: sns
+  version: '1.0'
+  summary: SNSのAPI設計
+servers: []
+paths:
+  /:
+    get:
+      summary: トップページ
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: object
+                properties: {}
+        '302':
+          description: Found
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /timeline
+      operationId: get-/
+      description: ログインフォームを表示。ログイン済みの場合は/timelineにリダイレクト。
+  /signup:
+    get:
+      summary: サインアップ
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: object
+                properties: {}
+      operationId: get-signup
+      description: ''
+  /timeline:
+    get:
+      summary: タイムライン
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: object
+                properties: {}
+      operationId: get-timeline
+  /api/login:
+    parameters: []
+    post:
+      summary: ログイン
+      operationId: post-api-login
+      responses:
+        '303':
+          description: See Other
+          content:
+            text/html:
+              schema:
+                type: object
+                properties: {}
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /timeline
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  email: hoge@fuga.com
+                  password: password
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - email
+                - password
+            examples:
+              example-1:
+                value:
+                  email: hoge@fuga.com
+                  password: hogehoge
+      parameters: []
+      security:
+        - session: []
+  /api/logout:
+    post:
+      summary: ログアウト
+      operationId: post-api-logout
+      responses:
+        '200':
+          description: OK
+      security:
+        - session: []
+  /api/user:
+    post:
+      summary: ユーザー登録
+      operationId: post-api-user
+      responses:
+        '303':
+          description: See Other
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /timeline
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+                username:
+                  type: string
+                  minLength: 1
+              required:
+                - email
+                - password
+                - username
+              x-examples:
+                example-1:
+                  email: hoge@fuga.com
+                  password: hogehoge
+                  username: hogehoge
+            examples:
+              example-1:
+                value:
+                  email: hoge@fuga.com
+                  password: hogehoge
+                  username: hogehoge
+      security:
+        - session: []
+  /api/message:
+    post:
+      summary: 投稿
+      operationId: post-api-message
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                message:
+                  type: string
+                  minLength: 1
+              required:
+                - message
+              x-examples:
+                example-1:
+                  message: hoge
+            examples:
+              example-1:
+                value:
+                  message: hoge
+      security:
+        - session: []
+  '/api/like/{messageId}':
+    parameters:
+      - schema:
+          type: string
+        name: messageId
+        in: path
+        required: true
+    post:
+      summary: いいね
+      operationId: post-api-like-messageId
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      security:
+        - session: []
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+  securitySchemes:
+    session:
+      name: session
+      type: apiKey
+      in: cookie
