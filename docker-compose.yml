@@ -10,6 +10,15 @@ services:
     volumes:
       - .:/workspace
       - rust-target:/workspace/target
+  db:
+  image: mysql:5.7
+  enviroment:
+    MYSQL_DATABASE: local_db
+    MYSQL_USER: user
+    MYSQL_PASSWORD: password
+  volumes:
+    - db-data:/var/lib/mysql
 
 volumes:
   rust-target:
+  db-data:
