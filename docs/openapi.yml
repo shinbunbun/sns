@@ -53,7 +53,7 @@ paths:
                 type: object
                 properties: {}
       operationId: get-timeline
-  /api/login:
+  /login:
     parameters: []
     post:
       summary: ログイン
@@ -99,7 +99,7 @@ paths:
       parameters: []
       security:
         - session: []
-  /api/logout:
+  /logout:
     post:
       summary: ログアウト
       operationId: post-api-logout
@@ -113,7 +113,8 @@ paths:
               schema:
                 type: string
               description: /
-  /api/user:
+    parameters: []
+  /user:
     post:
       summary: ユーザー登録
       operationId: post-api-user
@@ -158,13 +159,19 @@ paths:
                   username: hogehoge
       security:
         - session: []
-  /api/message:
+    parameters: []
+  /message:
     post:
       summary: 投稿
       operationId: post-api-message
       responses:
-        '200':
-          description: OK
+        '303':
+          description: See Other
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /timeline
       requestBody:
         content:
           application/json:
@@ -186,7 +193,8 @@ paths:
                   message: hoge
       security:
         - session: []
-  '/api/like/{messageId}':
+    parameters: []
+  '/like/{messageId}':
     parameters:
       - schema:
           type: string
@@ -197,8 +205,13 @@ paths:
       summary: いいね
       operationId: post-api-like-messageId
       responses:
-        '200':
-          description: OK
+        '303':
+          description: See Other
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /timeline
       requestBody:
         content:
           application/json:
