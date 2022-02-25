@@ -5,17 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug executable 'template'",
+            "name": "Debug",
             "type": "lldb",
             "request": "launch",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=template",
-                    "--package=template"
+                    "--bin=rust_sns",
+                    "--package=rust_sns"
                 ],
                 "filter": {
-                    "name": "template",
+                    "name": "rust_sns",
                     "kind": "bin"
                 }
             },
@@ -26,18 +26,18 @@
             ]
         },
         {
-            "name": "Debug unit tests in executable 'template'",
+            "name": "Debug unit tests",
             "type": "lldb",
             "request": "launch",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=template",
-                    "--package=template"
+                    "--bin=rust_sns",
+                    "--package=rust_sns"
                 ],
                 "filter": {
-                    "name": "template",
+                    "name": "rust_sns",
                     "kind": "bin"
                 }
             },
