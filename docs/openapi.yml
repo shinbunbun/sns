@@ -103,11 +103,16 @@ paths:
     post:
       summary: ログアウト
       operationId: post-api-logout
-      responses:
-        '200':
-          description: OK
       security:
         - session: []
+      responses:
+        '303':
+          description: See Other
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /
   /api/user:
     post:
       summary: ユーザー登録
