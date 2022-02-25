@@ -1,24 +1,24 @@
 version: '3.8'
 
 services:
-  rust:
-    build:
-      context: .
-      dockerfile: docker/rust/Dockerfile
-    tty: true
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
-      - rust-target:/workspace/target
-  db:
-  image: mysql:5.7
-  enviroment:
-    MYSQL_DATABASE: local_db
-    MYSQL_USER: user
-    MYSQL_PASSWORD: password
-  volumes:
-    - db-data:/var/lib/mysql
+    rust:
+        build:
+            context: .
+            dockerfile: docker/rust/Dockerfile
+        tty: true
+        working_dir: /workspace
+        volumes:
+            - .:/workspace
+            - rust-target:/workspace/target
+    db:
+        image: mysql:5.7
+        environment:
+            MYSQL_DATABASE: local_db
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+        volumes:
+            - db-data:/var/lib/mysql
 
 volumes:
-  rust-target:
-  db-data:
+    rust-target:
+    db-data:
