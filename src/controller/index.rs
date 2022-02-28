@@ -1,5 +1,9 @@
-use actix_web::{HttpResponse, Responder};
+use crate::{views, views::TemplateToResponse};
+use actix_web::Responder;
 
 pub async fn index() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+    views::index::IndexTemplate {
+        name: String::from("rust"),
+    }
+    .to_response()
 }
