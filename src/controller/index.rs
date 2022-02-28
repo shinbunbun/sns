@@ -1,4 +1,4 @@
-use crate::{http_response::TemplateToResponse, views};
+use crate::{views, views::TemplateToResponse};
 use actix_web::Responder;
 
 pub async fn index() -> impl Responder {

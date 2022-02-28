@@ -1,6 +1,5 @@
 use actix_web::{App, HttpServer};
 mod controller;
-mod http_response;
 mod router;
 mod views;
 
