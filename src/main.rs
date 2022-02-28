@@ -4,7 +4,7 @@ use rust_sns::router;
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| App::new().configure(router::router))
-        .bind("localhost:8000")?
+        .bind(("localhost", 8000))?
         .run()
         .await
 }
