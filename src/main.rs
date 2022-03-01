@@ -1,7 +1,7 @@
-use actix_web::{App, HttpServer};
 mod controller;
 mod router;
 mod views;
+use actix_web::{App, HttpServer};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
