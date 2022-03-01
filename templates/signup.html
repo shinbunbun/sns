@@ -11,13 +11,13 @@
 {% endblock %}
 
 {% block nav_content %}
-<a href="signup" class="btn btn-primary px-4">SignUp</a>
+<a href="/" class="btn btn-primary px-4">LogIn</a>
 {% endblock %}
 
 {% block content %}
 <div class="container d-flex align-items-center">
   <div class="flex-grow-1">
-    <h3 class="text-center py-4">LogIn</h3>
+    <h3 class="text-center py-4">SignUp</h3>
     <div class="row justify-content-center">
       <form class="col-6">
         <label for="email">E-mail</label>
@@ -28,8 +28,12 @@
         <div class="input-group mb-3">
           <input type="password" class="form-control" placeholder="Password" id="password" name="password">
         </div>
+        <label for="name">Name</label>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Name" id="name" name="name">
+        </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-primary px-4" formaction="/timeline" formmethod="post">LogIn</button>
+          <button type="submit" class="btn btn-primary px-4" formaction="/timeline" formmethod="post">SignUp</button>
         </div>
       </form>
     </div>

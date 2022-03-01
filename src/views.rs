@@ -1,4 +1,5 @@
 pub mod index;
+pub mod signup;
 
 use actix_web::{http::header::ContentType, HttpResponse};
 
