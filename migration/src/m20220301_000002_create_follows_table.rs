@@ -14,9 +14,7 @@ impl MigrationName for Migration {
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .create_table(
-                Schema::new(DbBackend::MySql).create_table_from_entity(Entity),
-            )
+            .create_table(Schema::new(DbBackend::MySql).create_table_from_entity(Entity))
             .await
     }
 
