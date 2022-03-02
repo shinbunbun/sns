@@ -1,12 +1,13 @@
 [package]
-name = "rust_sns"
+name = "migration"
 version = "0.1.0"
 edition = "2021"
+publish = false
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "migration"
+path = "src/lib.rs"
 
 [dependencies]
-actix-web = "4"
-askama = "0.11"
+sea-schema = { version = "0.5.0", default-features = false, features = [ "migration", "debug-print" ] }
 sea-orm = { version = "^0.6", features = [ "sqlx-mysql", "runtime-actix-native-tls", "macros" ], default-features = false }
-sea-query = "^0"
