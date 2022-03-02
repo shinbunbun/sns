@@ -5,6 +5,11 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[workspace]
+members = ["migration", "entity"]
+
 [dependencies]
 actix-web = "4"
 askama = "0.11"
+sea-orm = { version = "^0.6", features = [ "sqlx-mysql", "runtime-actix-native-tls", "macros" ], default-features = false }
+sea-query = "^0"
