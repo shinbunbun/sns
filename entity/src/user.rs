@@ -23,6 +23,8 @@ pub enum Relation {
     Follow,
     #[sea_orm(has_many = "super::like::Entity")]
     Like,
+    #[sea_orm(has_many = "super::message::Entity")]
+    Message,
 }
 
 impl Related<super::follow::Entity> for Entity {
@@ -34,6 +36,12 @@ impl Related<super::follow::Entity> for Entity {
 impl Related<super::like::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Like.def()
+    }
+}
+
+impl Related<super::message::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Message.def()
     }
 }
 
