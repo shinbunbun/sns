@@ -19,24 +19,24 @@ pub enum Relation {
         from = "Column::UserId",
         to = "super::user::Column::UserId"
     )]
-    UserId,
+    User,
     #[sea_orm(
         belongs_to = "super::message::Entity",
         from = "Column::MessageId",
         to = "super::message::Column::MessageId"
     )]
-    MessageId,
+    Message,
 }
 
 impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::UserId.def()
+        Relation::User.def()
     }
 }
 
 impl Related<super::message::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::MessageId.def()
+        Relation::Message.def()
     }
 }
 

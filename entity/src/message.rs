@@ -23,12 +23,12 @@ pub enum Relation {
         from = "Column::UserId",
         to = "super::user::Column::UserId"
     )]
-    UserId,
+    User,
 }
 
 impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::UserId.def()
+        Relation::User.def()
     }
 }
 

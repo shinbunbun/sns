@@ -19,21 +19,21 @@ pub enum Relation {
         from = "Column::FollowUserId",
         to = "super::user::Column::UserId"
     )]
-    FollowUserId,
+    FollowUser,
     #[sea_orm(
         belongs_to = "super::user::Entity",
         from = "Column::FollowerUserId",
         to = "super::user::Column::UserId"
     )]
-    FollowerUserId,
+    FollowerUser,
 }
 
 impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::FollowUserId.def()
+        Relation::FollowUser.def()
     }
     fn via() -> Option<RelationDef> {
-        Some(Relation::FollowerUserId.def().rev())
+        Some(Relation::FollowerUser.def().rev())
     }
 }
 
