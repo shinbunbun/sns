@@ -6,12 +6,17 @@ use crate::{views, views::TemplateToResponse};
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use ulid::Ulid;
+use validator::Validate;
 
 pub async fn signup() -> impl Responder {
     views::signup::SignUpTemplate {}.to_response()
 }
 
 pub async fn signup_post(req: web::Form<Req>, context: web::Data<AppContext>) -> impl Responder {
+    match req.validate() {
+        Ok(_) => (),
+        Err(_) => return HttpResponse::BadRequest().body("validate error"),
+    }
     let db = &context.db;
     let ulid = Ulid::new().to_string();
     let mut hasher = Sha3_256::new();
@@ -26,9 +31,12 @@ pub async fn signup_post(req: web::Form<Req>, context: web::Data<AppContext>) ->
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Validate, Deserialize)]
 pub struct Req {
+    #[validate(email)]
     pub email: String,
+    #[validate(length(min = 8))]
     password: String,
+
     pub name: String,
 }

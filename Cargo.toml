@@ -19,3 +19,4 @@ ulid="0"
 sha3="0"
 hex="0"
 dotenv="0"
+validator = { version = "0", features = ["derive"] }
