@@ -17,3 +17,7 @@ pub async fn insert(
     };
     entity::user::Entity::insert(model).exec(db).await
 }
+
+pub async fn select_by_e_mail(e_mail: String) -> Select<entity::user::Entity> {
+    entity::user::Entity::find().filter(entity::user::Column::EMail.eq(e_mail))
+}
