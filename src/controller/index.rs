@@ -4,6 +4,7 @@ use crate::usecase;
 use crate::{views, views::TemplateToResponse};
 use actix_web::{web, HttpResponse, Responder};
 use sea_orm::Database;
+use serde::Deserialize;
 
 pub async fn index() -> impl Responder {
     views::index::IndexTemplate {}.to_response()
@@ -33,6 +34,7 @@ pub async fn index_post(req: web::Form<Req>) -> impl Responder {
         .finish()
 }
 
+#[derive(Deserialize)]
 pub struct Req {
     pub email: String,
     password: String,
