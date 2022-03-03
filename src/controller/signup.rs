@@ -34,6 +34,6 @@ pub struct Req {
     pub email: String,
     #[validate(length(min = 8))]
     password: String,
-
+    #[validate(length(min = 3))]
     pub name: String,
 }
