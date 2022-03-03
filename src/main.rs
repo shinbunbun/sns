@@ -1,5 +1,6 @@
 mod controller;
 mod router;
+mod usecase;
 mod views;
 use actix_web::{App, HttpServer};
 
