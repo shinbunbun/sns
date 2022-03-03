@@ -4,8 +4,6 @@ use crate::usecase;
 use crate::{views, views::TemplateToResponse};
 use actix_web::{web, HttpResponse, Responder};
 use sea_orm::Database;
-use serde::Deserialize;
-use ulid::Ulid;
 
 pub async fn index() -> impl Responder {
     views::index::IndexTemplate {}.to_response()
