@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 use sea_orm::{entity::*, error::*, DbConn, InsertResult};
 use ulid::Ulid;
+=======
+use crate::controller;
+use sea_orm::{entity::*, error::*, DbConn, InsertResult, QueryFilter};
+>>>>>>> select_by_e_mailを修正
 
 pub async fn insert(
     db: &DbConn,
@@ -18,6 +23,12 @@ pub async fn insert(
     entity::user::Entity::insert(model).exec(db).await
 }
 
-pub async fn select_by_e_mail(e_mail: String) -> Select<entity::user::Entity> {
-    entity::user::Entity::find().filter(entity::user::Column::EMail.eq(e_mail))
+pub async fn select_by_e_mail(
+    db: &DbConn,
+    e_mail: &str,
+) -> Result<Option<entity::user::Model>, DbErr> {
+    entity::user::Entity::find()
+        .filter(entity::user::Column::EMail.eq(e_mail))
+        .one(db)
+        .await
 }
