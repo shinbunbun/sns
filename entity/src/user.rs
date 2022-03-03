@@ -9,7 +9,7 @@ pub struct Model {
     pub user_id: String,
     #[sea_orm(column_type = "String(Some(50))")]
     pub user_name: String,
-    #[sea_orm(column_type = "String(Some(254))")]
+    #[sea_orm(column_type = "String(Some(254))", unique)]
     pub e_mail: String,
     #[sea_orm(column_type = "String(Some(128))")]
     pub password_hash: String,

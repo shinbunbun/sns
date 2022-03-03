@@ -1,12 +1,24 @@
+mod app_context;
 mod controller;
 mod router;
+mod usecase;
 mod views;
-use actix_web::{App, HttpServer};
+use actix_web::{web, App, HttpServer};
+use dotenv::dotenv;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().configure(router::router))
-        .bind(("localhost", 8000))?
-        .run()
-        .await
+    dotenv().ok();
+    // AppContextインスタンス化
+    let app_context = app_context::AppContext::new().await;
+
+    HttpServer::new(move || {
+        App::new()
+            // アプリケーションにAppContextを注入
+            .app_data(web::Data::new(app_context.clone()))
+            .configure(router::router)
+    })
+    .bind(("localhost", 8000))?
+    .run()
+    .await
 }

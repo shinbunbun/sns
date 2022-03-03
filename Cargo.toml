@@ -13,3 +13,10 @@ actix-web = "4"
 askama = "0.11"
 sea-orm = { version = "^0.6", features = [ "sqlx-mysql", "runtime-actix-native-tls", "macros" ], default-features = false }
 sea-query = "^0"
+serde="1"
+entity={path="./entity"}
+ulid="0"
+sha3="0"
+hex="0"
+dotenv="0"
+validator = { version = "0", features = ["derive"] }
