@@ -13,12 +13,11 @@ use validator::Validate;
 const SESSION_KEY: &str = "user";
 
 pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Responder {
-    if session::is_valid(&context.db, &session).await {
-        HttpResponse::Found()
+    match session::is_valid(&context.db, &session).await {
+        Some(_) => HttpResponse::Found()
             .insert_header(("Location", "timeline"))
-            .finish()
-    } else {
-        views::index::IndexTemplate {}.to_response()
+            .finish(),
+        None => views::signup::SignUpTemplate {}.to_response(),
     }
 }
 
