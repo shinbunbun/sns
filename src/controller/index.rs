@@ -43,7 +43,7 @@ pub async fn index_post(
     if user.password_hash != password_hash {
         return HttpResponse::InternalServerError().body("email or password is invalid");
     }
-    match session.insert(session::get_session_key(), user.user_id) {
+    match session::insert(&session, &user.user_id) {
         Ok(_) => (),
         Err(_) => return HttpResponse::InternalServerError().body("session insert failed"),
     };

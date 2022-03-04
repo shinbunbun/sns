@@ -1,4 +1,5 @@
 use actix_session::Session;
+use actix_web::error;
 use sea_orm::DatabaseConnection;
 
 use crate::usecase;
@@ -21,6 +22,6 @@ pub async fn get_user(db: &DatabaseConnection, session: &Session) -> Option<enti
     }
 }
 
-pub fn get_session_key() -> String {
-    SESSION_KEY.to_string()
+pub fn insert(session: &Session, value: &str) -> Result<(), error::Error> {
+    session.insert(SESSION_KEY, value)
 }
