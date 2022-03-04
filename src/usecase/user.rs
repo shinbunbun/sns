@@ -1,4 +1,4 @@
-use sea_orm::{entity::*, error::*, DbConn, InsertResult};
+use sea_orm::{entity::*, error::*, DbConn, InsertResult, QueryFilter};
 use ulid::Ulid;
 
 pub async fn insert(
@@ -16,4 +16,14 @@ pub async fn insert(
         ..Default::default()
     };
     entity::user::Entity::insert(model).exec(db).await
+}
+
+pub async fn select_by_e_mail(
+    db: &DbConn,
+    e_mail: &str,
+) -> Result<Option<entity::user::Model>, DbErr> {
+    entity::user::Entity::find()
+        .filter(entity::user::Column::EMail.eq(e_mail))
+        .one(db)
+        .await
 }
