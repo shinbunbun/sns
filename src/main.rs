@@ -3,6 +3,7 @@ mod controller;
 mod router;
 mod usecase;
 mod views;
+use actix_session::CookieSession;
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 
@@ -17,6 +18,7 @@ async fn main() -> std::io::Result<()> {
             // アプリケーションにAppContextを注入
             .app_data(web::Data::new(app_context.clone()))
             .configure(router::router)
+            .wrap(CookieSession::signed(&[0; 32]).http_only(true))
     })
     .bind(("localhost", 8000))?
     .run()
