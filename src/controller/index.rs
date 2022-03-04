@@ -10,6 +10,8 @@ use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use validator::Validate;
 
+const SESSION_KEY: &str = "user";
+
 pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Responder {
     if session::is_valid(&context, &session).await {
         HttpResponse::Found()
@@ -44,7 +46,7 @@ pub async fn index_post(
     if user.password_hash != password_hash {
         return HttpResponse::InternalServerError().body("email or password is invalid");
     }
-    match session.insert("user", user.user_id) {
+    match session.insert(SESSION_KEY, user.user_id) {
         Ok(_) => (),
         Err(_) => return HttpResponse::InternalServerError().body("session insert failed"),
     };
