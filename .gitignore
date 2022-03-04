@@ -12,3 +12,4 @@ Cargo.lock
 .env
 docker-compose.override.yml
 target
+src/temp.sql
