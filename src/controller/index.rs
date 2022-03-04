@@ -1,3 +1,4 @@
+use actix_session::Session;
 use sha3::{Digest, Sha3_256};
 
 use crate::app_context::AppContext;
@@ -10,7 +11,11 @@ pub async fn index() -> impl Responder {
     views::index::IndexTemplate {}.to_response()
 }
 
-pub async fn index_post(req: web::Form<Req>, context: web::Data<AppContext>) -> impl Responder {
+pub async fn index_post(
+    req: web::Form<Req>,
+    context: web::Data<AppContext>,
+    session: Session,
+) -> impl Responder {
     let db = &context.db;
     let mut hasher = Sha3_256::new();
     hasher.update(&req.password);
@@ -27,6 +32,10 @@ pub async fn index_post(req: web::Form<Req>, context: web::Data<AppContext>) -> 
     if user.password_hash != password_hash {
         return HttpResponse::InternalServerError().body("email or password is invalid");
     }
+    match session.insert("user", user.user_id) {
+        Ok(_) => (),
+        Err(_) => return HttpResponse::InternalServerError().body("session insert failed"),
+    };
     HttpResponse::SeeOther()
         .insert_header(("Location", "timeline"))
         .finish()
