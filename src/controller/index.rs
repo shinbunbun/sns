@@ -1,17 +1,29 @@
+use actix_session::Session;
 use sha3::{Digest, Sha3_256};
 
 use crate::app_context::AppContext;
+use crate::session;
 use crate::usecase;
-use crate::{views, views::TemplateToResponse};
+use crate::views;
+use crate::views::TemplateToResponse;
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use validator::Validate;
 
-pub async fn index() -> impl Responder {
-    views::index::IndexTemplate {}.to_response()
+pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Responder {
+    match session::get_user(&context.db, &session).await {
+        Some(_) => HttpResponse::Found()
+            .insert_header(("Location", "timeline"))
+            .finish(),
+        None => views::signup::SignUpTemplate {}.to_response(),
+    }
 }
 
-pub async fn index_post(req: web::Form<Req>, context: web::Data<AppContext>) -> impl Responder {
+pub async fn index_post(
+    req: web::Form<Req>,
+    context: web::Data<AppContext>,
+    session: Session,
+) -> impl Responder {
     if req.validate().is_err() {
         return HttpResponse::BadRequest().body("validate error");
     }
@@ -31,6 +43,10 @@ pub async fn index_post(req: web::Form<Req>, context: web::Data<AppContext>) -> 
     if user.password_hash != password_hash {
         return HttpResponse::InternalServerError().body("email or password is invalid");
     }
+    match session::insert(&session, &user.user_id) {
+        Ok(_) => (),
+        Err(_) => return HttpResponse::InternalServerError().body("session insert failed"),
+    };
     HttpResponse::SeeOther()
         .insert_header(("Location", "timeline"))
         .finish()

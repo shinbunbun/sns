@@ -18,6 +18,16 @@ pub async fn insert(
     entity::user::Entity::insert(model).exec(db).await
 }
 
+pub async fn select_by_user_id(
+    db: &DbConn,
+    user_id: &str,
+) -> Result<Option<entity::user::Model>, DbErr> {
+    entity::user::Entity::find()
+        .filter(entity::user::Column::UserId.eq(user_id))
+        .one(db)
+        .await
+}
+
 pub async fn select_by_e_mail(
     db: &DbConn,
     e_mail: &str,
