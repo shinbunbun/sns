@@ -13,7 +13,7 @@ pub async fn signup() -> impl Responder {
 
 pub async fn signup_post(req: web::Form<Req>, context: web::Data<AppContext>) -> impl Responder {
     if req.validate().is_err() {
-        return HttpResponse::BadRequest().body("validate error"),
+        return HttpResponse::BadRequest().body("validate error");
     }
     let db = &context.db;
     let mut hasher = Sha3_256::new();
