@@ -1,6 +1,7 @@
 mod app_context;
 mod controller;
 mod router;
+mod session;
 mod usecase;
 mod views;
 use actix_session::CookieSession;

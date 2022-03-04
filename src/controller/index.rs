@@ -2,32 +2,20 @@ use actix_session::Session;
 use sha3::{Digest, Sha3_256};
 
 use crate::app_context::AppContext;
+use crate::session;
 use crate::usecase;
-use crate::{views, views::TemplateToResponse};
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use validator::Validate;
 
-const SESSION_KEY: &str = "user";
-
 pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Responder {
-    let user_session = match session.get::<String>(SESSION_KEY) {
-        Ok(res) => res,
-        Err(_) => return HttpResponse::InternalServerError().body("failed to get session"),
-    };
-    let user_id = match user_session {
-        Some(x) => x,
-        None => return views::index::IndexTemplate {}.to_response(),
-    };
-
-    let db = &context.db;
-    let select_result = usecase::user::select_by_user_id(db, &user_id).await;
-    if select_result.is_err() {
-        return HttpResponse::BadRequest().body("user not found");
-    };
-    HttpResponse::Found()
-        .insert_header(("Location", "timeline"))
-        .finish()
+    if session::is_valid(&context, &session).await {
+        HttpResponse::Found()
+            .insert_header(("Location", "timeline"))
+            .finish()
+    } else {
+        HttpResponse::BadRequest().body("session is invalid")
+    }
 }
 
 pub async fn index_post(
