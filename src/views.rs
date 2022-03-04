@@ -1,5 +1,6 @@
 pub mod index;
 pub mod signup;
+pub mod timeline;
 
 use actix_web::{http::header::ContentType, HttpResponse};
 
