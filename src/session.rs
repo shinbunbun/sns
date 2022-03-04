@@ -21,5 +21,5 @@ pub async fn is_valid(context: &web::Data<AppContext>, session: &Session) -> boo
     if select_result.is_err() {
         return false;
     };
-    return true;
+    true
 }
