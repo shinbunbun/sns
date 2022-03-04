@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-use sea_orm::{entity::*, error::*, DbConn, InsertResult};
-use ulid::Ulid;
-=======
-use crate::controller;
 use sea_orm::{entity::*, error::*, DbConn, InsertResult, QueryFilter};
->>>>>>> select_by_e_mailを修正
+use ulid::Ulid;
 
 pub async fn insert(
     db: &DbConn,
