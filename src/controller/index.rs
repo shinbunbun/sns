@@ -5,12 +5,16 @@ use crate::usecase;
 use crate::{views, views::TemplateToResponse};
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
+use validator::Validate;
 
 pub async fn index() -> impl Responder {
     views::index::IndexTemplate {}.to_response()
 }
 
 pub async fn index_post(req: web::Form<Req>, context: web::Data<AppContext>) -> impl Responder {
+    if req.validate().is_err() {
+        return HttpResponse::BadRequest().body("validate error");
+    }
     let db = &context.db;
     let mut hasher = Sha3_256::new();
     hasher.update(&req.password);
@@ -32,8 +36,10 @@ pub async fn index_post(req: web::Form<Req>, context: web::Data<AppContext>) -> 
         .finish()
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Validate, Deserialize)]
 pub struct Req {
+    #[validate(email)]
     pub email: String,
+    #[validate(length(min = 8))]
     password: String,
 }
