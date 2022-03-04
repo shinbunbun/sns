@@ -4,6 +4,8 @@ use sha3::{Digest, Sha3_256};
 use crate::app_context::AppContext;
 use crate::session;
 use crate::usecase;
+use crate::views;
+use crate::views::TemplateToResponse;
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use validator::Validate;
@@ -14,7 +16,7 @@ pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Res
             .insert_header(("Location", "timeline"))
             .finish()
     } else {
-        HttpResponse::BadRequest().body("session is invalid")
+        views::index::IndexTemplate {}.to_response()
     }
 }
 
