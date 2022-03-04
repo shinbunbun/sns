@@ -41,7 +41,7 @@
         {% endif %}
         <span>{{one_post.likes}}</span>
       </p>
-      <p class="card-text">{{one_post.created_at}}</p>
+      <p class="card-text">{{one_post.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
     </div>
   </div>
   {% endfor %}
