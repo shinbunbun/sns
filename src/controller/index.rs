@@ -10,17 +10,24 @@ use validator::Validate;
 
 const SESSION_KEY: &str = "user";
 
-pub async fn index(session: Session) -> impl Responder {
+pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Responder {
     let user_session = match session.get::<String>(SESSION_KEY) {
         Ok(res) => res,
         Err(_) => return HttpResponse::InternalServerError().body("failed to get session"),
     };
-    if user_session.is_some() {
-        return HttpResponse::Found()
-            .insert_header(("Location", "timeline"))
-            .finish();
-    }
-    views::index::IndexTemplate {}.to_response()
+    let user_id = match user_session {
+        Some(x) => x,
+        None => return views::index::IndexTemplate {}.to_response(),
+    };
+
+    let db = &context.db;
+    let select_result = usecase::user::select_by_user_id(db, &user_id).await;
+    if select_result.is_err() {
+        return HttpResponse::BadRequest().body("user not found");
+    };
+    HttpResponse::Found()
+        .insert_header(("Location", "timeline"))
+        .finish()
 }
 
 pub async fn index_post(
