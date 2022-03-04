@@ -21,7 +21,11 @@ pub async fn index(session: Session) -> impl Responder {
     views::index::IndexTemplate {}.to_response()
 }
 
-pub async fn index_post(req: web::Form<Req>, context: web::Data<AppContext>) -> impl Responder {
+pub async fn index_post(
+    req: web::Form<Req>,
+    context: web::Data<AppContext>,
+    session: Session,
+) -> impl Responder {
     if req.validate().is_err() {
         return HttpResponse::BadRequest().body("validate error");
     }
