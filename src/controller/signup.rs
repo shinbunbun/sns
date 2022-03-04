@@ -8,7 +8,16 @@ use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use validator::Validate;
 
-pub async fn signup() -> impl Responder {
+pub async fn signup(session: Session) -> impl Responder {
+    let user_session = match session.get::<String>("user") {
+        Ok(res) => res,
+        Err(_) => return HttpResponse::InternalServerError().body("failed to get session"),
+    };
+    if user_session.is_some() {
+        return HttpResponse::Found()
+            .insert_header(("Location", "timeline"))
+            .finish();
+    }
     views::signup::SignUpTemplate {}.to_response()
 }
 

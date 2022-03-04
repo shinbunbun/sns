@@ -7,7 +7,16 @@ use crate::{views, views::TemplateToResponse};
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 
-pub async fn index() -> impl Responder {
+pub async fn index(session: Session) -> impl Responder {
+    let user_session = match session.get::<String>("user") {
+        Ok(res) => res,
+        Err(_) => return HttpResponse::InternalServerError().body("failed to get session"),
+    };
+    if user_session.is_some() {
+        return HttpResponse::Found()
+            .insert_header(("Location", "timeline"))
+            .finish();
+    }
     views::index::IndexTemplate {}.to_response()
 }
 
