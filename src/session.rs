@@ -20,3 +20,7 @@ pub async fn get_user(db: &DatabaseConnection, session: &Session) -> Option<enti
         Err(_) => None,
     }
 }
+
+pub fn get_session_key() -> String {
+    SESSION_KEY.to_string()
+}

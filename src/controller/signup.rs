@@ -35,7 +35,7 @@ pub async fn signup_post(
         Ok(res) => res,
         Err(_) => return HttpResponse::InternalServerError().body("database insert error"),
     };
-    match session.insert("user", insert_result.last_insert_id) {
+    match session.insert(session::get_session_key(), insert_result.last_insert_id) {
         Ok(_) => (),
         Err(_) => return HttpResponse::InternalServerError().body("session insert failed"),
     };
