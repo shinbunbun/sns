@@ -8,8 +8,10 @@ use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use validator::Validate;
 
+const SESSION_KEY: &str = "user";
+
 pub async fn index(session: Session) -> impl Responder {
-    let user_session = match session.get::<String>("user") {
+    let user_session = match session.get::<String>(SESSION_KEY) {
         Ok(res) => res,
         Err(_) => return HttpResponse::InternalServerError().body("failed to get session"),
     };
