@@ -2,6 +2,7 @@ use crate::usecase;
 use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
+use validator::Validate;
 
 use crate::app_context::AppContext;
 
@@ -10,6 +11,9 @@ pub async fn post(
     context: web::Data<AppContext>,
     session: Session,
 ) -> impl Responder {
+    if req.validate().is_err() {
+        return HttpResponse::BadRequest().body("validate error");
+    }
     let user_session = match session.get::<String>("user") {
         Ok(res) => res,
         Err(_) => return HttpResponse::InternalServerError().body("failed to get session"),
@@ -29,7 +33,8 @@ pub async fn post(
         .finish()
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Validate, Deserialize)]
 pub struct Req {
+    #[validate(length(min = 1))]
     pub message_text: String,
 }
