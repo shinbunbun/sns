@@ -5,7 +5,7 @@ use crate::usecase;
 
 const SESSION_KEY: &str = "user";
 
-pub async fn is_valid(db: &DatabaseConnection, session: &Session) -> Option<entity::user::Model> {
+pub async fn get_user(db: &DatabaseConnection, session: &Session) -> Option<entity::user::Model> {
     let user_session = match session.get::<String>(SESSION_KEY) {
         Ok(res) => res,
         Err(_) => return None,

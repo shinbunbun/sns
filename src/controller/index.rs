@@ -13,7 +13,7 @@ use validator::Validate;
 const SESSION_KEY: &str = "user";
 
 pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Responder {
-    match session::is_valid(&context.db, &session).await {
+    match session::get_user(&context.db, &session).await {
         Some(_) => HttpResponse::Found()
             .insert_header(("Location", "timeline"))
             .finish(),

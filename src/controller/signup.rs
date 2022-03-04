@@ -10,7 +10,7 @@ use serde::Deserialize;
 use validator::Validate;
 
 pub async fn signup(context: web::Data<AppContext>, session: Session) -> impl Responder {
-    match session::is_valid(&context.db, &session).await {
+    match session::get_user(&context.db, &session).await {
         Some(_) => HttpResponse::Found()
             .insert_header(("Location", "timeline"))
             .finish(),
