@@ -2,23 +2,21 @@ use actix_session::Session;
 use sha3::{Digest, Sha3_256};
 
 use crate::app_context::AppContext;
+use crate::session;
 use crate::usecase;
 use crate::{views, views::TemplateToResponse};
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 use validator::Validate;
 
-pub async fn signup(session: Session) -> impl Responder {
-    let user_session = match session.get::<String>("user") {
-        Ok(res) => res,
-        Err(_) => return HttpResponse::InternalServerError().body("failed to get session"),
-    };
-    if user_session.is_some() {
-        return HttpResponse::Found()
+pub async fn signup(context: web::Data<AppContext>, session: Session) -> impl Responder {
+    if session::is_valid(&context, &session).await {
+        HttpResponse::Found()
             .insert_header(("Location", "timeline"))
-            .finish();
+            .finish()
+    } else {
+        views::signup::SignUpTemplate {}.to_response()
     }
-    views::signup::SignUpTemplate {}.to_response()
 }
 
 pub async fn signup_post(
