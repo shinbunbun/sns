@@ -29,7 +29,18 @@ pub async fn like_delete(
     context: web::Data<AppContext>,
     session: Session,
 ) -> impl Responder {
-    HttpResponse::Ok().body(req.message_id.to_owned())
+    let user = session::get_user(&context.db, &session).await;
+    let user = match user {
+        Some(x) => x,
+        None => return HttpResponse::InternalServerError().body("failed to get user info"),
+    };
+    let db = &context.db;
+    match usecase::like::delete(db, &user.user_id, &req.message_id).await {
+        Ok(_) => HttpResponse::Found()
+            .insert_header(("Location", "timeline"))
+            .finish(),
+        Err(_) => HttpResponse::InternalServerError().body("db delete error"),
+    }
 }
 
 #[derive(Deserialize)]
