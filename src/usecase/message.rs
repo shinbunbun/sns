@@ -1,6 +1,6 @@
 use sea_orm::{
-    entity::*, error::*, ConnectionTrait, DatabaseBackend, DbConn, InsertResult, QueryResult,
-    Statement,
+    entity::*, error::*, prelude::DateTimeWithTimeZone, ConnectionTrait, DatabaseBackend, DbConn,
+    FromQueryResult, InsertResult, QueryResult, Statement,
 };
 use ulid::Ulid;
 
@@ -44,4 +44,14 @@ pub async fn select_all_posts_info(db: &DbConn, user_id: &str) -> Result<Vec<Que
         ].join(" ").to_owned(),
     ))
     .await
+}
+
+// #[derive(FromQueryResult)]
+pub struct Post {
+    pub message_id: String,
+    pub user_name: String,
+    pub message_text: String,
+    pub created_at: DateTimeWithTimeZone,
+    pub likes: i64,
+    pub is_like: i64,
 }
