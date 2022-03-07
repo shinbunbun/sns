@@ -13,7 +13,9 @@
 {% block nav_content %}
 <div class="d-flex">
   <span class="username text-right me-5 d-flex align-items-center">{{ user_name }}</span>
-  <a href="/" class="btn btn-danger px-4">LogOut</a>
+  <form>
+    <button type="submit" formmethod="post" formaction="logout" class="btn btn-danger px-4">LogOut</button>
+  </form>
 </div>
 {% endblock %}
 
