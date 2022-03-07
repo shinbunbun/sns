@@ -12,7 +12,7 @@ use validator::Validate;
 pub async fn signup(context: web::Data<AppContext>, session: Session) -> impl Responder {
     match session::get_user(&context.db, &session).await {
         Some(_) => HttpResponse::Found()
-            .insert_header(("Location", "timeline"))
+            .insert_header(("Location", "/timeline"))
             .finish(),
         None => views::signup::SignUpTemplate {}.to_response(),
     }
@@ -40,7 +40,7 @@ pub async fn signup_post(
         Err(_) => return HttpResponse::InternalServerError().body("session insert failed"),
     };
     HttpResponse::SeeOther()
-        .insert_header(("Location", "timeline"))
+        .insert_header(("Location", "/timeline"))
         .finish()
 }
 
