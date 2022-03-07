@@ -27,7 +27,7 @@ pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl 
 
     views::timeline::TimelineTemplate {
         user_name: user.user_name,
-        messages: messages,
+        messages,
     }
     .to_response()
 }
