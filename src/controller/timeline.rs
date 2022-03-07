@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 use crate::app_context::AppContext;
 use crate::session;
 use crate::usecase;
@@ -31,7 +33,7 @@ pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl 
         Err(e) => println!("{:#?}", e),
     };
 
-    let mut posts: Vec<views::timeline::Post> = Vec::new();
+    let mut posts: VecDeque<views::timeline::Post> = VecDeque::new();
 
     for one_message in messages {
         let message_id = match one_message.try_get::<String>("", "message_id") {
@@ -58,7 +60,7 @@ pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl 
             Ok(res) => res,
             Err(e) => return HttpResponse::InternalServerError().body(e.to_string()),
         };
-        posts.push(views::timeline::Post {
+        posts.push_front(views::timeline::Post {
             message_id,
             user_name,
             message_text,

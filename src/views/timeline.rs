@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 use askama::Template;
 use sea_orm::prelude::DateTimeWithTimeZone;
 
@@ -5,7 +7,7 @@ use sea_orm::prelude::DateTimeWithTimeZone;
 #[template(path = "timeline.html")]
 pub struct TimelineTemplate {
     pub user_name: String,
-    pub posts: Vec<Post>,
+    pub posts: VecDeque<Post>,
 }
 
 pub struct Post {
