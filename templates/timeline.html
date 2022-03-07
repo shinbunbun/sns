@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Timeline{% endblock %}
+
+{% block head %}
+<style>
+  .heart-red {
+    color: red;
+  }
+</style>
+{% endblock %}
+
+{% block nav_content %}
+<div class="d-flex">
+  <span class="username text-right me-5 d-flex align-items-center">{{ user_name }}</span>
+  <a href="/" class="btn btn-danger px-4">LogOut</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="my-5">
+    <form>
+      <textarea class="form-control" id="post-form" rows="5" name="message_text"></textarea>
+      <button type="submit" formmethod="post" formaction="post"
+        class="btn btn-primary px-4 mt-2 float-end">Post</button>
+    </form>
+  </div>
+  {% for one_post in posts %}
+  <div class="card w-100" style="width: 18rem;">
+    <div class="card-body" id="{{one_post.message_id}}">
+      <h5 class="card-title">{{one_post.user_name}}</h5>
+      <p class="card-text">{{one_post.message_text}}</p>
+      <p class="card-text text-end">
+        {% if one_post.is_like == true %}
+        <span class="heart-red">
+          ♥
+        </span>
+        {% else %}
+        ♡
+        {% endif %}
+        <span>{{one_post.likes}}</span>
+      </p>
+      <p class="card-text">{{one_post.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
