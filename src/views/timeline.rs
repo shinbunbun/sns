@@ -1,5 +1,3 @@
-use std::collections::VecDeque;
-
 use askama::Template;
 
 use crate::usecase::message::Post;
@@ -8,5 +6,5 @@ use crate::usecase::message::Post;
 #[template(path = "timeline.html")]
 pub struct TimelineTemplate {
     pub user_name: String,
-    pub posts: VecDeque<Post>,
+    pub posts: Vec<Post>,
 }
