@@ -13,7 +13,9 @@
 {% block nav_content %}
 <div class="d-flex">
   <span class="username text-right me-5 d-flex align-items-center">{{ user_name }}</span>
-  <a href="/" class="btn btn-danger px-4">LogOut</a>
+  <form>
+    <button type="submit" formmethod="post" formaction="logout" class="btn btn-danger px-4">LogOut</button>
+  </form>
 </div>
 {% endblock %}
 
@@ -26,22 +28,22 @@
         class="btn btn-primary px-4 mt-2 float-end">Post</button>
     </form>
   </div>
-  {% for one_post in posts %}
+  {% for one_message in messages %}
   <div class="card w-100" style="width: 18rem;">
-    <div class="card-body" id="{{one_post.message_id}}">
-      <h5 class="card-title">{{one_post.user_name}}</h5>
-      <p class="card-text">{{one_post.message_text}}</p>
+    <div class="card-body" id="{{one_message.message_id}}">
+      <h5 class="card-title">{{one_message.user_name}}</h5>
+      <p class="card-text">{{one_message.message_text}}</p>
       <p class="card-text text-end">
-        {% if one_post.is_like == true %}
+        {% if one_message.is_like == 1 %}
         <span class="heart-red">
           ♥
         </span>
         {% else %}
         ♡
         {% endif %}
-        <span>{{one_post.likes}}</span>
+        <span>{{one_message.likes}}</span>
       </p>
-      <p class="card-text">{{one_post.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
+      <p class="card-text">{{one_message.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
     </div>
   </div>
   {% endfor %}

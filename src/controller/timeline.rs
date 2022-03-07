@@ -1,28 +1,31 @@
+use crate::app_context::AppContext;
+use crate::session;
+use crate::usecase;
 use crate::{views, views::TemplateToResponse};
-use actix_web::Responder;
-use chrono::Local;
+use actix_session::Session;
+use actix_web::{web, HttpResponse, Responder};
 
-pub async fn timeline() -> impl Responder {
+pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl Responder {
+    let db = &context.db;
+
+    let user = session::get_user(db, &session).await;
+    let user = match user {
+        Some(x) => x,
+        None => return HttpResponse::InternalServerError().body("session error"),
+    };
+
+    let messages = usecase::message::select_all_messages_info(db, &user.user_id).await;
+    let messages = match messages {
+        Ok(res) => res,
+        Err(e) => {
+            println!("{:#?}", e);
+            return HttpResponse::InternalServerError().body("db select error");
+        }
+    };
+
     views::timeline::TimelineTemplate {
-        user_name: String::from("rust"),
-        posts: vec![
-            views::timeline::Post {
-                message_id: String::from("1"),
-                user_name: String::from("test"),
-                message_text: String::from("content"),
-                created_at: Local::now(),
-                likes: 3,
-                is_like: true,
-            },
-            views::timeline::Post {
-                message_id: String::from("2"),
-                user_name: String::from("test2"),
-                message_text: String::from("content2"),
-                created_at: Local::now(),
-                likes: 0,
-                is_like: false,
-            },
-        ],
+        user_name: user.user_name,
+        messages,
     }
     .to_response()
 }
