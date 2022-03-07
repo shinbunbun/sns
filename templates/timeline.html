@@ -83,7 +83,7 @@
       })
     })
       .then((res) => {
-        location.href = res.headers.get("location")
+        location.href = res.headers.get("location");
       })
       .catch(e => {
         alert("fetch error");
