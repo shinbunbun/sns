@@ -10,4 +10,5 @@ pub fn router(cfg: &mut web::ServiceConfig) {
     cfg.route("/post", web::post().to(controller::message::message));
     cfg.route("/like", web::post().to(controller::like::like_post));
     cfg.route("/like", web::delete().to(controller::like::like_delete));
+    cfg.route("/logout", web::post().to(controller::logout::logout_post));
 }
