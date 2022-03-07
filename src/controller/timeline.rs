@@ -15,15 +15,13 @@ pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl 
     };
 
     let messages = usecase::message::select_all_messages_info(db, &user.user_id).await;
-    let mut messages = match messages {
+    let messages = match messages {
         Ok(res) => res,
         Err(e) => {
             println!("{:#?}", e);
             return HttpResponse::InternalServerError().body("db select error");
         }
     };
-
-    messages.reverse();
 
     views::timeline::TimelineTemplate {
         user_name: user.user_name,

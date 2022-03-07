@@ -40,6 +40,7 @@ pub async fn select_all_messages_info(db: &DbConn, user_id: &str) -> Result<Vec<
             ")",
             "AS `X`",
             "ON `messages`.`message_id`=`X`.`message_id`",
+            "ORDER BY created_at DESC"
         ].join(" "),
         vec![user_id.into()]
     ))
