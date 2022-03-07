@@ -20,7 +20,6 @@ pub async fn insert(
 }
 
 pub async fn select_all_messages_info(db: &DbConn, user_id: &str) -> Result<Vec<Message>, DbErr> {
-    let user_id = String::from("\"") + &String::from(user_id) + &String::from("\"");
     Message::find_by_statement(Statement::from_sql_and_values(
         db.get_database_backend(),
         &[
