@@ -24,6 +24,14 @@ pub async fn like_post(
     }
 }
 
+pub async fn like_delete(
+    req: web::Form<Req>,
+    context: web::Data<AppContext>,
+    session: Session,
+) -> impl Responder {
+    HttpResponse::Ok().body(req.message_id.to_owned())
+}
+
 #[derive(Deserialize)]
 pub struct Req {
     pub message_id: String,
