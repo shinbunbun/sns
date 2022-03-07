@@ -1,4 +1,4 @@
-use sea_orm::{DbConn, DbErr, EntityTrait, InsertResult, Set};
+use sea_orm::{DbConn, DbErr, DeleteOne, EntityTrait, InsertResult, Set};
 
 pub async fn insert(
     db: &DbConn,
@@ -10,4 +10,16 @@ pub async fn insert(
         message_id: Set(message_id.to_owned()),
     };
     entity::like::Entity::insert(model).exec(db).await
+}
+
+pub async fn delete(
+    db: &DbConn,
+    user_id: &str,
+    message_id: &str,
+) -> DeleteOne<entity::like::ActiveModel> {
+    let model = entity::like::ActiveModel {
+        user_id: Set(user_id.to_owned()),
+        message_id: Set(message_id.to_owned()),
+    };
+    entity::like::Entity::delete(model)
 }
