@@ -1,5 +1,4 @@
 use sea_orm::{DbConn, DbErr, EntityTrait, InsertResult, Set};
-use ulid::Ulid;
 
 pub async fn insert(
     db: &DbConn,
