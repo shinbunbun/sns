@@ -1,51 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}Timeline{% endblock %}
+<<<<<<< HEAD {% block title %}Timeline{% endblock %}======={% block title %}LogIn{% endblock %}>>>>>>>
+  58c75eb5d84d6881bc80623b363829178751d6a6
 
-{% block head %}
-<style>
-  .heart-red {
-    color: red;
-  }
-</style>
-{% endblock %}
+  {% block head %}
+  <style>
+    .heart-red {
+      color: red;
+    }
+  </style>
+  {% endblock %}
 
-{% block nav_content %}
-<div class="d-flex">
-  <span class="username text-right me-5 d-flex align-items-center">{{ user_name }}</span>
-  <form>
-    <button type="submit" formmethod="post" formaction="logout" class="btn btn-danger px-4">LogOut</button>
-  </form>
-</div>
-{% endblock %}
-
-{% block content %}
-<div class="container">
-  <div class="my-5">
+  {% block nav_content %}
+  <div class="d-flex">
+    <span class="username text-right me-5 d-flex align-items-center">{{ user_name }}</span>
     <form>
-      <textarea class="form-control" id="post-form" rows="5" name="message_text"></textarea>
-      <button type="submit" formmethod="post" formaction="post"
-        class="btn btn-primary px-4 mt-2 float-end">Post</button>
+      <button type="submit" formmethod="post" formaction="logout" class="btn btn-danger px-4">LogOut</button>
     </form>
   </div>
-  {% for one_message in messages %}
-  <div class="card w-100" style="width: 18rem;">
-    <div class="card-body" id="{{one_message.message_id}}">
-      <h5 class="card-title">{{one_message.user_name}}</h5>
-      <p class="card-text">{{one_message.message_text}}</p>
-      <p class="card-text text-end">
-        {% if one_message.is_like == 1 %}
-        <span class="heart-red">
-          ♥
-        </span>
-        {% else %}
-        ♡
-        {% endif %}
-        <span>{{one_message.likes}}</span>
-      </p>
-      <p class="card-text">{{one_message.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
+  {% endblock %}
+
+  {% block content %}
+  <div class="container">
+    <div class="my-5">
+      <form>
+        <textarea class="form-control" id="post-form" rows="5" name="message_text"></textarea>
+        <button type="submit" formmethod="post" formaction="post"
+          class="btn btn-primary px-4 mt-2 float-end">Post</button>
+      </form>
     </div>
+    {% for one_message in messages %}
+    <div class="card w-100" style="width: 18rem;">
+      <div class="card-body" id="{{one_message.message_id}}">
+        <h5 class="card-title">{{one_message.user_name}}</h5>
+        <p class="card-text">{{one_message.message_text}}</p>
+        <p class="card-text text-end">
+          {% if one_message.is_like == 1 %}
+          <span class="heart-red">
+            ♥
+          </span>
+          {% else %}
+          ♡
+          {% endif %}
+          <span>{{one_message.likes}}</span>
+        </p>
+        <p class="card-text">{{one_message.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
+      </div>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
-{% endblock %}
+  {% endblock %}
