@@ -18,9 +18,8 @@ pub async fn timeline(context: web::Data<AppContext>, _session: Session) -> impl
         }
     };
 
-    println!("{:#?}", messages);
     match messages[0].try_get::<String>("", "message_id") {
-        Ok(res) => println!("{:#?}", res),
+        Ok(_) => (),
         Err(e) => println!("{:#?}", e),
     };
 
