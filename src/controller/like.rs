@@ -25,7 +25,7 @@ pub async fn like_post(
 }
 
 pub async fn like_delete(
-    req: web::Form<Req>,
+    req: web::Json<Req>,
     context: web::Data<AppContext>,
     session: Session,
 ) -> impl Responder {
