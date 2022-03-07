@@ -17,7 +17,7 @@ pub async fn like_post(
 
     let db = &context.db;
     match usecase::like::insert(db, &user.user_id, &req.message_id).await {
-        Ok(_) => HttpResponse::Found()
+        Ok(_) => HttpResponse::SeeOther()
             .insert_header(("Location", "/timeline"))
             .finish(),
         Err(_) => HttpResponse::InternalServerError().body("db insert error"),
@@ -36,8 +36,8 @@ pub async fn like_delete(
     };
     let db = &context.db;
     match usecase::like::delete(db, &user.user_id, &req.message_id).await {
-        Ok(_) => HttpResponse::Found()
-            .insert_header(("Location", "/timeline"))
+        Ok(_) => HttpResponse::Ok()
+            .insert_header(("Location", "timeline"))
             .finish(),
         Err(_) => HttpResponse::InternalServerError().body("db delete error"),
     }

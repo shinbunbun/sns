@@ -82,8 +82,8 @@
         message_id
       })
     })
-      .then(() => {
-        location.href = "timeline"
+      .then((res) => {
+        location.href = res.headers.get("location")
       })
       .catch(e => {
         alert("fetch error");
