@@ -1,4 +1,4 @@
 pub mod index;
-pub mod post;
+pub mod message;
 pub mod signup;
 pub mod timeline;

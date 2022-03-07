@@ -1,6 +1,6 @@
 use sea_orm::{
-    entity::*, error::*, prelude::DateTimeWithTimeZone, ConnectionTrait, DbConn,
-    FromQueryResult, InsertResult, Statement,
+    entity::*, error::*, prelude::DateTimeWithTimeZone, ConnectionTrait, DbConn, FromQueryResult,
+    InsertResult, Statement,
 };
 use ulid::Ulid;
 
@@ -19,9 +19,9 @@ pub async fn insert(
     entity::message::Entity::insert(model).exec(db).await
 }
 
-pub async fn select_all_posts_info(db: &DbConn, user_id: &str) -> Result<Vec<Post>, DbErr> {
+pub async fn select_all_messages_info(db: &DbConn, user_id: &str) -> Result<Vec<Message>, DbErr> {
     let user_id = String::from("\"") + &String::from(user_id) + &String::from("\"");
-    Post::find_by_statement(Statement::from_sql_and_values(
+    Message::find_by_statement(Statement::from_sql_and_values(
         db.get_database_backend(),
         &[
             "SELECT `messages`.`message_id`, `users`.`user_name`, `messages`.`message_text`, `messages`.`created_at`, IFNULL(`X`.`likes`, 0) as likes,",
@@ -48,7 +48,7 @@ pub async fn select_all_posts_info(db: &DbConn, user_id: &str) -> Result<Vec<Pos
 }
 
 #[derive(FromQueryResult)]
-pub struct Post {
+pub struct Message {
     pub message_id: String,
     pub user_name: String,
     pub message_text: String,

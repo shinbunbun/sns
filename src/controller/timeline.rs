@@ -14,7 +14,7 @@ pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl 
         None => return HttpResponse::InternalServerError().body("session error"),
     };
 
-    let messages = usecase::message::select_all_posts_info(db, &user.user_id).await;
+    let messages = usecase::message::select_all_messages_info(db, &user.user_id).await;
     let mut messages = match messages {
         Ok(res) => res,
         Err(e) => {
@@ -27,7 +27,7 @@ pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl 
 
     views::timeline::TimelineTemplate {
         user_name: user.user_name,
-        posts: messages,
+        messages: messages,
     }
     .to_response()
 }

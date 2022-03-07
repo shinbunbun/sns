@@ -7,5 +7,5 @@ pub fn router(cfg: &mut web::ServiceConfig) {
     cfg.route("/timeline", web::get().to(controller::timeline::timeline));
     cfg.route("/signup", web::get().to(controller::signup::signup));
     cfg.route("/signup", web::post().to(controller::signup::signup_post));
-    cfg.route("/post", web::post().to(controller::post::post));
+    cfg.route("/post", web::post().to(controller::message::message));
 }

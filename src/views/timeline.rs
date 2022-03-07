@@ -1,10 +1,10 @@
 use askama::Template;
 
-use crate::usecase::message::Post;
+use crate::usecase::message::Message;
 
 #[derive(Template)]
 #[template(path = "timeline.html")]
 pub struct TimelineTemplate {
     pub user_name: String,
-    pub posts: Vec<Post>,
+    pub messages: Vec<Message>,
 }

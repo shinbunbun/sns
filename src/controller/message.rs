@@ -6,7 +6,7 @@ use validator::Validate;
 
 use crate::app_context::AppContext;
 
-pub async fn post(
+pub async fn message(
     req: web::Form<Req>,
     context: web::Data<AppContext>,
     session: Session,
