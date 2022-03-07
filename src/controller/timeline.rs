@@ -17,9 +17,7 @@ pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl 
         None => return HttpResponse::InternalServerError().body("session error"),
     };
 
-    let messages =
-        usecase::message::select_all_posts_info(db, &String::from("01FX99PNZ5B0TTPC7R9F2CNQRG"))
-            .await;
+    let messages = usecase::message::select_all_posts_info(db, &user.user_id).await;
     let messages = match messages {
         Ok(res) => res,
         Err(e) => {
