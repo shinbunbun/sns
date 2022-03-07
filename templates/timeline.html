@@ -49,7 +49,7 @@
       <p class="card-text text-end">
       <div class="d-flex justify-content-end">
         {% if one_message.is_like == 1 %}
-        <a href="javascript:like_delete('{{one_message.message_id}}');" class="like">
+        <a onclick="like_delete('{{one_message.message_id}}');" class="like">
           <span class="heart-red">
             ♥
           </span>
