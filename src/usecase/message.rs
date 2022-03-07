@@ -48,7 +48,7 @@ pub async fn select_all_messages_info(db: &DbConn, user_id: &str) -> Result<Vec<
     .await
 }
 
-#[derive(FromQueryResult)]
+#[derive(FromQueryResult, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Message {
     pub message_id: String,
     pub user_name: String,
