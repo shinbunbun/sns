@@ -1,12 +1,20 @@
 use crate::app_context::AppContext;
+use crate::session;
 use crate::usecase;
 use crate::{views, views::TemplateToResponse};
 use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
 use sea_orm::prelude::DateTimeWithTimeZone;
 
-pub async fn timeline(context: web::Data<AppContext>, _session: Session) -> impl Responder {
+pub async fn timeline(context: web::Data<AppContext>, session: Session) -> impl Responder {
     let db = &context.db;
+
+    let user = session::get_user(db, &session).await;
+    let user = match user {
+        Some(x) => x,
+        None => return HttpResponse::InternalServerError().body("session error"),
+    };
+
     let messages =
         usecase::message::select_all_posts_info(db, &String::from("01FX99PNZ5B0TTPC7R9F2CNQRG"))
             .await;
@@ -60,7 +68,7 @@ pub async fn timeline(context: web::Data<AppContext>, _session: Session) -> impl
         });
     }
     views::timeline::TimelineTemplate {
-        user_name: String::from("rust"),
+        user_name: user.user_name,
         posts,
     }
     .to_response()
