@@ -47,7 +47,7 @@
       <h5 class="card-title">{{one_message.user_name}}</h5>
       <p class="card-text">{{one_message.message_text}}</p>
       <p class="card-text text-end">
-      <div class="d-flex">
+      <div class="d-flex justify-content-end">
         {% if one_message.is_like == 1 %}
         <a href="javascript:like_delete('{{one_message.message_id}}');" class="like">
           <span class="heart-red">
