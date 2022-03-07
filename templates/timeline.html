@@ -7,6 +7,19 @@
   .heart-red {
     color: red;
   }
+
+  .like {
+    text-decoration: none;
+    color: #000000;
+  }
+
+  /* .like:active {
+    color: #000000;
+  }
+
+  .like:focus {
+    outline: none;
+  } */
 </style>
 {% endblock %}
 
@@ -33,7 +46,7 @@
     <div class="card-body" id="{{one_message.message_id}}">
       <h5 class="card-title">{{one_message.user_name}}</h5>
       <p class="card-text">{{one_message.message_text}}</p>
-      <p class="card-text text-end">
+      <<<<<<< HEAD <p class="card-text text-end">
         {% if one_message.is_like == 1 %}
         <span class="heart-red">
           ♥
@@ -42,8 +55,25 @@
         ♡
         {% endif %}
         <span>{{one_message.likes}}</span>
-      </p>
-      <p class="card-text">{{one_message.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
+        </p>
+        =======
+        <form action="like" name="like_{{loop.index}}" method="post">
+          <input type="hidden" name="message_id" value="{{one_post.message_id}}">
+          <a href="javascript:like_{{loop.index}}.submit();" class="like">
+            <p class="card-text text-end">
+              {% if one_message.is_like == 1 %}
+              <span class="heart-red">
+                ♥
+              </span>
+              {% else %}
+              ♡
+              {% endif %}
+              <span>{{one_message.likes}}</span>
+            </p>
+          </a>
+        </form>
+        >>>>>>> いいねボタンを修正
+        <p class="card-text">{{one_message.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
     </div>
   </div>
   {% endfor %}
