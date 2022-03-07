@@ -15,7 +15,7 @@ pub async fn index(context: web::Data<AppContext>, session: Session) -> impl Res
         Some(_) => HttpResponse::Found()
             .insert_header(("Location", "/timeline"))
             .finish(),
-        None => views::signup::SignUpTemplate {}.to_response(),
+        None => views::index::IndexTemplate {}.to_response(),
     }
 }
 

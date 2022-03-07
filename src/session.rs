@@ -25,3 +25,7 @@ pub async fn get_user(db: &DatabaseConnection, session: &Session) -> Option<enti
 pub fn insert(session: &Session, value: &str) -> Result<(), error::Error> {
     session.insert(SESSION_KEY, value)
 }
+
+pub fn remove(session: &Session) -> Option<String> {
+    session.remove(SESSION_KEY)
+}
