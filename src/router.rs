@@ -8,4 +8,6 @@ pub fn router(cfg: &mut web::ServiceConfig) {
     cfg.route("/signup", web::get().to(controller::signup::signup));
     cfg.route("/signup", web::post().to(controller::signup::signup_post));
     cfg.route("/post", web::post().to(controller::message::message));
+    cfg.route("/like", web::post().to(controller::like::like_post));
+    cfg.route("/like", web::delete().to(controller::like::like_delete));
 }

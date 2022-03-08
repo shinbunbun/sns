@@ -29,7 +29,7 @@ pub async fn message(
     }
 
     HttpResponse::SeeOther()
-        .insert_header(("Location", "timeline"))
+        .insert_header(("Location", "/timeline"))
         .finish()
 }
 

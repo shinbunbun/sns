@@ -5,8 +5,21 @@
 {% block head %}
 <style>
   .heart-red {
-    color: red;
+    color: red !important;
   }
+
+  .like {
+    text-decoration: none;
+    color: #000000;
+  }
+
+  /* .like:active {
+    color: #000000;
+  }
+
+  .like:focus {
+    outline: none;
+  } */
 </style>
 {% endblock %}
 
@@ -34,18 +47,48 @@
       <h5 class="card-title">{{one_message.user_name}}</h5>
       <p class="card-text">{{one_message.message_text}}</p>
       <p class="card-text text-end">
+      <div class="d-flex justify-content-end">
         {% if one_message.is_like == 1 %}
-        <span class="heart-red">
-          ♥
-        </span>
+        <a onclick="like_delete('{{one_message.message_id}}');" class="like">
+          <span class="heart-red">
+            ♥
+          </span>
+        </a>
         {% else %}
-        ♡
+        <form action="like" name="like_{{loop.index}}" method="post">
+          <input type="hidden" name="message_id" value="{{one_message.message_id}}">
+          <a href="javascript:like_{{loop.index}}.submit();" class="like">
+            ♡
+          </a>
+        </form>
         {% endif %}
         <span>{{one_message.likes}}</span>
+      </div>
       </p>
       <p class="card-text">{{one_message.created_at.format("%Y/%m/%d %H:%M:%S")}}</p>
     </div>
   </div>
   {% endfor %}
 </div>
+
+<script>
+  const like_delete = (message_id) => {
+    fetch("like", {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message_id
+      })
+    })
+      .then((res) => {
+        location.reload();
+      })
+      .catch(e => {
+        alert("fetch error");
+        console.error(e);
+      })
+  }
+</script>
 {% endblock %}
