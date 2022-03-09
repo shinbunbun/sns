@@ -1,5 +1,6 @@
 mod app_context;
 mod controller;
+mod error;
 mod router;
 mod session;
 mod usecase;
